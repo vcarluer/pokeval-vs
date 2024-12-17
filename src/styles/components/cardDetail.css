@@ -167,6 +167,26 @@
   font-style: italic;
 }
 
+.market-link {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  padding: 12px;
+  background: white;
+  border: 1px solid var(--manga-red);
+  border-radius: 4px;
+  color: var(--manga-red);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.market-link:hover {
+  background: var(--manga-red);
+  color: white;
+  transform: translateY(-2px);
+}
+
 @keyframes slideDown {
   from {
     opacity: 0;

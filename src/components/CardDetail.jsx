@@ -103,6 +103,17 @@ function CardDetail({ card, onBack }) {
                 </div>
               )}
             </div>
+            
+            {card.cardmarket?.url && (
+              <a 
+                href={card.cardmarket.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="market-link"
+              >
+                Voir sur Cardmarket ↗
+              </a>
+            )}
           </>
         ) : (
           <p className="no-price">Prix non disponible</p>
@@ -124,6 +135,7 @@ CardDetail.propTypes = {
     rarity: PropTypes.string,
     hp: PropTypes.string,
     cardmarket: PropTypes.shape({
+      url: PropTypes.string,
       prices: PropTypes.shape({
         averageSellPrice: PropTypes.number,
         lowPrice: PropTypes.number,
