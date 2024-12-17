@@ -1,5 +1,28 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
+import { Line, Bar } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function CardDetail({ card, onBack }) {
   const [showDetails, setShowDetails] = useState(false);
@@ -20,6 +43,137 @@ function CardDetail({ card, onBack }) {
   };
 
   const trendIndicator = getTrendIndicator(prices.trendPrice, prices.averageSellPrice);
+
+  // Common chart options
+  const commonOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: {
+          font: {
+            family: "'Segoe UI', sans-serif",
+            size: 12
+          },
+          color: '#333'
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => `${context.dataset.label}: ${context.parsed.y.toFixed(2)}€`
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: false,
+        ticks: {
+          callback: (value) => `${value}€`,
+          font: {
+            family: "'Segoe UI', sans-serif",
+            size: 11
+          },
+          color: '#666'
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)'
+        }
+      },
+      x: {
+        ticks: {
+          font: {
+            family: "'Segoe UI', sans-serif",
+            size: 11
+          },
+          color: '#666'
+        },
+        grid: {
+          display: false
+        }
+      }
+    }
+  };
+
+  // Price trend chart data
+  const trendChartData = {
+    labels: ['1 jour', '7 jours', '30 jours'],
+    datasets: [
+      {
+        label: 'Prix moyen',
+        data: [prices.avg1, prices.avg7, prices.avg30],
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        tension: 0.3,
+        fill: true
+      },
+    ],
+  };
+
+  const trendChartOptions = {
+    ...commonOptions,
+    plugins: {
+      ...commonOptions.plugins,
+      title: {
+        display: true,
+        text: 'Évolution des prix',
+        font: {
+          family: "'Segoe UI', sans-serif",
+          size: 16,
+          weight: 'bold'
+        },
+        color: '#333',
+        padding: 20
+      }
+    }
+  };
+
+  // Price comparison chart data
+  const comparisonChartData = {
+    labels: ['Prix le plus bas', 'Prix moyen', 'Tendance'],
+    datasets: [
+      {
+        label: 'Prix',
+        data: [prices.lowPrice, prices.averageSellPrice, prices.trendPrice],
+        backgroundColor: [
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 99, 132, 0.6)',
+        ],
+        borderColor: [
+          'rgb(75, 192, 192)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 99, 132)',
+        ],
+        borderWidth: 1,
+        borderRadius: 5,
+      },
+    ],
+  };
+
+  const comparisonChartOptions = {
+    ...commonOptions,
+    plugins: {
+      ...commonOptions.plugins,
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: 'Comparaison des prix',
+        font: {
+          family: "'Segoe UI', sans-serif",
+          size: 16,
+          weight: 'bold'
+        },
+        color: '#333',
+        padding: 20
+      }
+    }
+  };
+
+  const hasTrendData = prices.avg1 || prices.avg7 || prices.avg30;
+  const hasComparisonData = prices.lowPrice && prices.averageSellPrice && prices.trendPrice;
 
   return (
     <div className="card-detail">
@@ -101,6 +255,24 @@ function CardDetail({ card, onBack }) {
                     </div>
                   )}
                 </div>
+              )}
+            </div>
+
+            <div className="price-charts">
+              {hasTrendData && (
+                <div className="chart-container">
+                  <Line options={trendChartOptions} data={trendChartData} />
+                </div>
+              )}
+              
+              {hasComparisonData && (
+                <div className="chart-container">
+                  <Bar options={comparisonChartOptions} data={comparisonChartData} />
+                </div>
+              )}
+
+              {!hasTrendData && !hasComparisonData && (
+                <p className="no-charts">Données insuffisantes pour afficher les graphiques</p>
               )}
             </div>
             
