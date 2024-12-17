@@ -97,11 +97,11 @@ function CardDetail({ card, onBack }) {
 
   // Price trend chart data
   const trendChartData = {
-    labels: ['1 jour', '7 jours', '30 jours'],
+    labels: ['-30 jours', '-7 jours', '-1 jour'],
     datasets: [
       {
         label: 'Prix moyen',
-        data: [prices.avg1, prices.avg7, prices.avg30],
+        data: [prices.avg30, prices.avg7, prices.avg1],
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
         tension: 0.3,
