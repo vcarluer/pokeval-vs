@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { analyzeImage, compareImages } from './services/openaiService';
 import { searchCards } from './services/pokemonTcgService';
 import ImageUploader from './components/ImageUploader';
@@ -17,13 +17,34 @@ import './styles/components/searchHistory.css';
 import './styles/responsive.css';
 
 function App() {
+  const [searchHistory, setSearchHistory] = useState(() => {
+    try {
+      const saved = localStorage.getItem('searchHistory');
+      console.log('Loading search history from localStorage:', saved);
+      const parsed = saved ? JSON.parse(saved) : [];
+      console.log('Parsed search history:', parsed);
+      return parsed;
+    } catch (error) {
+      console.error('Error loading search history:', error);
+      return [];
+    }
+  });
+
   const [searchResults, setSearchResults] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [similarities, setSimilarities] = useState([]);
-  const [searchHistory, setSearchHistory] = useState([]);
+
+  useEffect(() => {
+    try {
+      console.log('Saving search history:', searchHistory);
+      localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+    } catch (error) {
+      console.error('Error saving search history:', error);
+    }
+  }, [searchHistory]);
 
   const handleImageAnalyze = async (base64Image, file) => {
     setLoading(true);
@@ -44,14 +65,18 @@ function App() {
         setSearchResults(cards);
         
         // Update search history with the first card (most likely match)
+        const newHistoryItem = {
+          card: cards[0],
+          image: base64Image,
+          timestamp: Date.now()
+        };
+
+        console.log('Adding new history item:', newHistoryItem);
+
         setSearchHistory(prevHistory => {
-          const newHistory = [
-            {
-              card: cards[0],
-              image: base64Image
-            },
-            ...prevHistory
-          ].slice(0, 5); // Keep only the last 5 searches
+          const filteredHistory = prevHistory.filter(item => item.card.id !== cards[0].id);
+          const newHistory = [newHistoryItem, ...filteredHistory].slice(0, 5);
+          console.log('Updated history:', newHistory);
           return newHistory;
         });
         
@@ -106,13 +131,18 @@ function App() {
       <main>
         {!searchResults.length && !selectedCard && !loading && (
           <>
-            <SearchHistory history={searchHistory} />
             <ImageUploader onImageAnalyze={handleImageAnalyze} />
+            <SearchHistory history={searchHistory} />
           </>
         )}
         
-        {loading && !searchResults.length && <div className="loading">Analyse en cours...</div>}
-        {error && <div className="error">{error}</div>}
+        {loading && !searchResults.length && (
+          <div className="loading">Analyse en cours...</div>
+        )}
+        
+        {error && (
+          <div className="error">{error}</div>
+        )}
         
         {uploadedImage && !selectedCard && (
           <div className="uploaded-image">
