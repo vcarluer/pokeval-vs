@@ -5,18 +5,16 @@ function CardDetail({ card, onBack }) {
 
   const prices = card.cardmarket?.prices || {};
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
-
   return (
     <div className="card-detail">
-      <button className="back-button" onClick={onBack}>
-        Retour à la liste
-      </button>
+      <div className="button-group">
+        <button className="back-button" onClick={onBack}>
+          Retour à la liste
+        </button>
+        <button className="reset-button" onClick={() => window.location.reload()}>
+          Nouvelle analyse
+        </button>
+      </div>
       
       <div className="card-header">
         <img src={card.images.large} alt={card.name} />
@@ -53,10 +51,6 @@ function CardDetail({ card, onBack }) {
           <p className="no-price">Prix non disponible</p>
         )}
       </div>
-
-      <button className="scroll-to-top" onClick={scrollToTop}>
-        ↑
-      </button>
     </div>
   );
 }
