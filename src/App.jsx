@@ -113,6 +113,8 @@ function App() {
 
   const handleCardSelect = (card) => {
     setSelectedCard(card);
+    setSearchResults([]);
+    setUploadedImage(null);
   };
 
   const handleBack = () => {
@@ -132,7 +134,10 @@ function App() {
         {!searchResults.length && !selectedCard && !loading && (
           <>
             <ImageUploader onImageAnalyze={handleImageAnalyze} />
-            <SearchHistory history={searchHistory} />
+            <SearchHistory 
+              history={searchHistory} 
+              onCardSelect={handleCardSelect}
+            />
           </>
         )}
         

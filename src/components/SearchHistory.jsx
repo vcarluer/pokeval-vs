@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import '../styles/components/searchHistory.css';
 
-function SearchHistory({ history = [] }) {
+function SearchHistory({ history = [], onCardSelect }) {
   console.log('SearchHistory rendered with:', JSON.stringify(history, null, 2));
 
   return (
@@ -16,7 +16,18 @@ function SearchHistory({ history = [] }) {
           {history.map((item, index) => {
             console.log('Rendering history item:', JSON.stringify(item, null, 2));
             return (
-              <div key={`${item.card.id}-${index}`} className="history-item">
+              <div 
+                key={`${item.card.id}-${index}`} 
+                className="history-item"
+                onClick={() => onCardSelect(item.card)}
+                role="button"
+                tabIndex={0}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    onCardSelect(item.card);
+                  }
+                }}
+              >
                 <img 
                   src={item.card.images.small} 
                   alt={item.card.name} 
@@ -46,7 +57,8 @@ SearchHistory.propTypes = {
         }).isRequired,
       }).isRequired,
     })
-  )
+  ),
+  onCardSelect: PropTypes.func.isRequired
 };
 
 export default SearchHistory;

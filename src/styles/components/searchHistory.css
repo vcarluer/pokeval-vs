@@ -57,11 +57,19 @@
   background: rgba(0, 0, 0, 0.3);
   padding: 0.5rem;
   border-radius: 8px;
-  transition: transform 0.2s ease;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  outline: none;
 }
 
-.history-item:hover {
+.history-item:hover, .history-item:focus {
   transform: translateY(-2px);
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.history-item:active {
+  transform: translateY(0);
 }
 
 .history-item img {
