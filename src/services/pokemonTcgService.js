@@ -3,13 +3,7 @@ import { config } from '../config';
 
 export const searchCards = async (searchData) => {
   try {
-    let query = `name:"${searchData.name}*"`;
-    if (searchData.subtype) {
-      query += ` subtypes:"${searchData.subtype}*"`;
-    }
-    if (searchData.hp) {
-      query += ` hp:"${searchData.hp}"`;
-    }
+    const query = `name:"${searchData.name}*"`;
 
     const response = await axios.get(`${config.pokemonTcg.baseUrl}/cards`, {
       params: {
