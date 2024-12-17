@@ -3,6 +3,7 @@
   padding: 20px;
   animation: dramaticFade 0.8s ease-out forwards;
   width: 100%;
+  text-align: center;
 }
 
 .search-results h2 {
