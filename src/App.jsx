@@ -4,6 +4,7 @@ import { searchCards } from './services/pokemonTcgService';
 import ImageUploader from './components/ImageUploader';
 import CardList from './components/CardList';
 import CardDetail from './components/CardDetail';
+import SearchHistory from './components/SearchHistory';
 
 // Import styles in order of specificity
 import './styles/base.css';
@@ -12,6 +13,7 @@ import './styles/components/imageUploader.css';
 import './styles/components/cardList.css';
 import './styles/components/cardDetail.css';
 import './styles/components/differences.css';
+import './styles/components/searchHistory.css';
 import './styles/responsive.css';
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
   const [error, setError] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [similarities, setSimilarities] = useState([]);
+  const [searchHistory, setSearchHistory] = useState([]);
 
   const handleImageAnalyze = async (base64Image, file) => {
     setLoading(true);
@@ -29,7 +32,7 @@ function App() {
     setSelectedCard(null);
     setSimilarities([]);
     
-    setUploadedImage(base64Image); // Store base64 directly
+    setUploadedImage(base64Image);
 
     try {
       const analysisResult = await analyzeImage(base64Image);
@@ -39,6 +42,18 @@ function App() {
         setError("Aucune carte trouvée");
       } else {
         setSearchResults(cards);
+        
+        // Update search history with the first card (most likely match)
+        setSearchHistory(prevHistory => {
+          const newHistory = [
+            {
+              card: cards[0],
+              image: base64Image
+            },
+            ...prevHistory
+          ].slice(0, 5); // Keep only the last 5 searches
+          return newHistory;
+        });
         
         // Compare images in background
         const similarityResults = await Promise.all(
@@ -90,7 +105,10 @@ function App() {
       
       <main>
         {!searchResults.length && !selectedCard && !loading && (
-          <ImageUploader onImageAnalyze={handleImageAnalyze} />
+          <>
+            <SearchHistory history={searchHistory} />
+            <ImageUploader onImageAnalyze={handleImageAnalyze} />
+          </>
         )}
         
         {loading && !searchResults.length && <div className="loading">Analyse en cours...</div>}
