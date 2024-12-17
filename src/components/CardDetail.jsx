@@ -1,9 +1,25 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 
 function CardDetail({ card, onBack }) {
+  const [showDetails, setShowDetails] = useState(false);
+  
   if (!card) return null;
 
   const prices = card.cardmarket?.prices || {};
+  
+  const getTrendIndicator = (trendPrice, averagePrice) => {
+    if (!trendPrice || !averagePrice) return null;
+    const difference = trendPrice - averagePrice;
+    if (difference > 0) {
+      return { icon: '↗', color: 'trend-up', percentage: ((difference / averagePrice) * 100).toFixed(1) };
+    } else if (difference < 0) {
+      return { icon: '↘', color: 'trend-down', percentage: ((Math.abs(difference) / averagePrice) * 100).toFixed(1) };
+    }
+    return { icon: '→', color: 'trend-stable', percentage: '0.0' };
+  };
+
+  const trendIndicator = getTrendIndicator(prices.trendPrice, prices.averageSellPrice);
 
   return (
     <div className="card-detail">
@@ -29,24 +45,65 @@ function CardDetail({ card, onBack }) {
       <div className="price-details">
         <h3>Prix du marché</h3>
         {prices.averageSellPrice ? (
-          <div className="prices">
-            <div className="price-item">
-              <span>Prix moyen:</span>
-              <span className="price">{prices.averageSellPrice.toFixed(2)}€</span>
+          <>
+            <div className="main-prices">
+              <div className="price-item main">
+                <span>Prix moyen:</span>
+                <span className="price">{prices.averageSellPrice.toFixed(2)}€</span>
+              </div>
+              {prices.trendPrice && (
+                <div className={`price-item main trend ${trendIndicator?.color}`}>
+                  <div className="trend-info">
+                    <span>Tendance:</span>
+                    {trendIndicator && (
+                      <span className="trend-percentage">
+                        {trendIndicator.icon} {trendIndicator.percentage}%
+                      </span>
+                    )}
+                  </div>
+                  <span className="price">{prices.trendPrice.toFixed(2)}€</span>
+                </div>
+              )}
             </div>
-            {prices.lowPrice && (
-              <div className="price-item">
-                <span>Prix le plus bas:</span>
-                <span className="price">{prices.lowPrice.toFixed(2)}€</span>
-              </div>
-            )}
-            {prices.trendPrice && (
-              <div className="price-item">
-                <span>Prix tendance:</span>
-                <span className="price">{prices.trendPrice.toFixed(2)}€</span>
-              </div>
-            )}
-          </div>
+            
+            <div className="price-details-toggle">
+              <button 
+                onClick={() => setShowDetails(!showDetails)}
+                className={`toggle-button ${showDetails ? 'active' : ''}`}
+              >
+                {showDetails ? 'Masquer les détails' : 'Voir plus de détails'} {showDetails ? '▼' : '▶'}
+              </button>
+              
+              {showDetails && (
+                <div className="additional-prices">
+                  {prices.lowPrice && (
+                    <div className="price-item">
+                      <span>Prix le plus bas:</span>
+                      <span className="price">{prices.lowPrice.toFixed(2)}€</span>
+                    </div>
+                  )}
+                  {prices.avg1 && (
+                    <div className="price-item">
+                      <span>Moyenne sur 1 jour:</span>
+                      <span className="price">{prices.avg1.toFixed(2)}€</span>
+                    </div>
+                  )}
+                  {prices.avg7 && (
+                    <div className="price-item">
+                      <span>Moyenne sur 7 jours:</span>
+                      <span className="price">{prices.avg7.toFixed(2)}€</span>
+                    </div>
+                  )}
+                  {prices.avg30 && (
+                    <div className="price-item">
+                      <span>Moyenne sur 30 jours:</span>
+                      <span className="price">{prices.avg30.toFixed(2)}€</span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </>
         ) : (
           <p className="no-price">Prix non disponible</p>
         )}
@@ -71,6 +128,9 @@ CardDetail.propTypes = {
         averageSellPrice: PropTypes.number,
         lowPrice: PropTypes.number,
         trendPrice: PropTypes.number,
+        avg1: PropTypes.number,
+        avg7: PropTypes.number,
+        avg30: PropTypes.number,
       }),
     }),
   }),
