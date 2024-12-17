@@ -16,14 +16,14 @@ export const analyzeImage = async (base64Image) => {
       messages: [
         {
           role: "system",
-          content: "Extract Pokemon card name and return as JSON. Pokemon name must be in English."
+          content: "Extract Pokemon card details and return as JSON. Pokemon name must be in English, without any subtype in the name. Return subtype and HP separately."
         },
         {
           role: "user",
           content: [
             {
               type: "text",
-              text: "Analyze this Pokemon card and return JSON with format: {\"name\":\"english_name\"}"
+              text: "Analyze this Pokemon card and return JSON with format: {\"name\":\"english_name\",\"subtype\":\"\",\"hp\":\"\"}"
             },
             {
               type: "image_url",
