@@ -88,6 +88,7 @@
 /* Card Info Styling */
 .card-info {
   margin-top: 15px;
+  text-align: center;
 }
 
 .card-info h3 {
@@ -125,9 +126,11 @@
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid rgba(0,0,0,0.1);
+  text-align: center;
 }
 
 .similarity, .confidence {
   margin: 2px 0;
   font-size: 0.9em;
+  text-align: center;
 }
