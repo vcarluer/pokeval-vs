@@ -89,7 +89,7 @@ function App() {
       </header>
       
       <main>
-        {!searchResults.length && !selectedCard && (
+        {!searchResults.length && !selectedCard && !loading && (
           <ImageUploader onImageAnalyze={handleImageAnalyze} />
         )}
         
