@@ -49,6 +49,9 @@
   background: var(--manga-light);
   position: relative;
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .card-item:hover {
@@ -56,6 +59,16 @@
   box-shadow: 
     10px 10px 20px rgba(26,26,26,0.2),
     -5px 5px 10px rgba(255,51,51,0.2);
+}
+
+/* Card Image Styling */
+.card-item > img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+  display: block;
 }
 
 /* Best Match Card Styling */
@@ -89,6 +102,7 @@
 .card-info {
   margin-top: 15px;
   text-align: center;
+  width: 100%;
 }
 
 .card-info h3 {
@@ -115,22 +129,37 @@
   margin: 4px 0;
 }
 
-.card-info img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  margin-bottom: 10px;
-}
-
 .similarity-info {
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid rgba(0,0,0,0.1);
   text-align: center;
+  width: 100%;
 }
 
 .similarity, .confidence {
   margin: 2px 0;
   font-size: 0.9em;
   text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+    padding: 15px;
+  }
+
+  .card-item {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+    padding: 10px;
+  }
 }
