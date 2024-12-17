@@ -1,0 +1,145 @@
+/* Critical Differences Styling */
+.card-item.has-critical {
+  border-color: var(--critical-red);
+  background: linear-gradient(to bottom, #fff5f5, white);
+}
+
+.card-item.has-critical .similarity.critical-warning {
+  color: var(--critical-red);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.card-item.has-critical .similarity.critical-warning::before {
+  content: '⚠️';
+  font-size: 1.2em;
+}
+
+/* Differences Tooltip Styling */
+.differences-tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  margin-top: 5px;
+}
+
+.differences-tooltip .tooltip-content {
+  visibility: hidden;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  width: 280px;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+  border: 2px solid var(--manga-dark);
+}
+
+.differences-tooltip:hover .tooltip-content {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Difference Groups Styling */
+.difference-group {
+  margin: 10px 0;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.difference-group h4 {
+  margin: 0 0 5px 0;
+  font-size: 0.9em;
+  text-transform: uppercase;
+}
+
+.difference-group.critical {
+  background: rgba(255, 0, 0, 0.1);
+  border-left: 3px solid var(--critical-red);
+}
+
+.difference-group.major {
+  background: rgba(255, 107, 0, 0.1);
+  border-left: 3px solid var(--major-orange);
+}
+
+.difference-group.minor {
+  background: rgba(0, 102, 204, 0.1);
+  border-left: 3px solid var(--minor-blue);
+}
+
+/* Difference Items Styling */
+.difference-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 0;
+  font-size: 0.85em;
+  line-height: 1.4;
+}
+
+.difference-item.critical {
+  color: var(--critical-red);
+}
+
+.difference-item.major {
+  color: var(--major-orange);
+}
+
+.difference-item.minor {
+  color: var(--minor-blue);
+}
+
+/* Penalty Score Styling */
+.penalty {
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+  font-size: 0.9em;
+  min-width: 45px;
+  text-align: right;
+}
+
+.difference-item.critical .penalty {
+  background: rgba(255, 0, 0, 0.1);
+  color: var(--critical-red);
+}
+
+.difference-item.major .penalty {
+  background: rgba(255, 107, 0, 0.1);
+  color: var(--major-orange);
+}
+
+.difference-item.minor .penalty {
+  background: rgba(0, 102, 204, 0.1);
+  color: var(--minor-blue);
+}
+
+/* Total Penalties Styling */
+.total-penalties {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-penalties strong {
+  font-size: 0.9em;
+  color: var(--manga-dark);
+}
+
+.penalty.total {
+  background: rgba(26, 26, 26, 0.1);
+  color: var(--manga-dark);
+  font-weight: bold;
+}

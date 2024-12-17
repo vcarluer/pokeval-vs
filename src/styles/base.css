@@ -1,0 +1,92 @@
+/* Base Theme Variables and Animations */
+:root {
+  --manga-red: #ff3333;
+  --manga-dark: #1a1a1a;
+  --manga-light: #ffffff;
+  --manga-gray: #888888;
+  --speed-line-color: rgba(26, 26, 26, 0.06);
+  --highlight-glow: #ffd700;
+  --critical-red: #ff0000;
+  --major-orange: #ff6b00;
+  --minor-blue: #0066cc;
+}
+
+@keyframes titleSlash {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+@keyframes speedLines {
+  0% { background-position: 0 0; }
+  100% { background-position: 50px 50px; }
+}
+
+@keyframes dramaticFade {
+  0% { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 10px var(--highlight-glow); }
+  50% { box-shadow: 0 0 20px var(--highlight-glow), 0 0 30px var(--highlight-glow); }
+  100% { box-shadow: 0 0 10px var(--highlight-glow); }
+}
+
+/* Base Layout */
+html, body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  background-color: var(--manga-light);
+  background-image: 
+    repeating-linear-gradient(45deg, transparent, transparent 20px, var(--speed-line-color) 20px, var(--speed-line-color) 40px),
+    repeating-linear-gradient(-45deg, transparent, transparent 20px, var(--speed-line-color) 20px, var(--speed-line-color) 40px);
+  font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.app {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 8px;
+  animation: dramaticFade 0.5s ease-out forwards;
+  max-width: 600px;
+}
+
+.loading {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--manga-dark);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.error {
+  background: rgba(255, 51, 51, 0.1);
+  color: var(--manga-red);
+  border: 2px solid var(--manga-red);
+}

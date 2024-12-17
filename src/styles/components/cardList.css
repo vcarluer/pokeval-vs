@@ -1,0 +1,132 @@
+/* Cards Grid and Items */
+.search-results {
+  padding: 20px;
+  animation: dramaticFade 0.8s ease-out forwards;
+  width: 100%;
+}
+
+.search-results h2 {
+  color: var(--manga-dark);
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+  display: inline-block;
+  padding: 0 20px;
+}
+
+.search-results h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--manga-red);
+  transform: scaleX(0.8);
+  transition: transform 0.3s ease;
+}
+
+.search-results:hover h2::after {
+  transform: scaleX(1);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 30px;
+  padding: 20px;
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.card-item {
+  border: 3px solid var(--manga-dark);
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: var(--manga-light);
+  position: relative;
+  border-radius: 8px;
+}
+
+.card-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    10px 10px 20px rgba(26,26,26,0.2),
+    -5px 5px 10px rgba(255,51,51,0.2);
+}
+
+/* Best Match Card Styling */
+.card-item.most-similar {
+  border: 3px solid var(--highlight-glow);
+  transform: scale(1.05);
+  animation: glowPulse 2s infinite;
+  z-index: 1;
+}
+
+.card-item.most-similar::before {
+  content: '🏆 Meilleur Match';
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--highlight-glow);
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-weight: bold;
+  color: var(--manga-dark);
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+.card-item.most-similar:hover {
+  transform: scale(1.08) translateY(-8px);
+}
+
+/* Card Info Styling */
+.card-info {
+  margin-top: 15px;
+}
+
+.card-info h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.1em;
+  color: var(--manga-dark);
+}
+
+.card-info .set-name {
+  color: var(--manga-gray);
+  font-size: 0.9em;
+  margin: 4px 0;
+}
+
+.card-info .rarity {
+  color: var(--manga-red);
+  font-size: 0.9em;
+  margin: 4px 0;
+}
+
+.card-info .hp {
+  font-weight: bold;
+  color: var(--manga-dark);
+  margin: 4px 0;
+}
+
+.card-info img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.similarity-info {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.similarity, .confidence {
+  margin: 2px 0;
+  font-size: 0.9em;
+}

@@ -1,0 +1,49 @@
+/* Responsive Design */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 3em;
+  }
+  
+  .subtitle p {
+    font-size: 1em;
+  }
+  
+  .cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+  }
+  
+  .image-uploader {
+    padding: 20px;
+  }
+  
+  .card-header {
+    flex-direction: column;
+  }
+  
+  .card-header img {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 2.5em;
+  }
+  
+  .subtitle p {
+    font-size: 0.9em;
+  }
+  
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .image-uploader {
+    padding: 15px;
+  }
+  
+  .differences-tooltip .tooltip-content {
+    width: 240px;
+  }
+}
