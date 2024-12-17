@@ -5,6 +5,13 @@ function CardDetail({ card, onBack }) {
 
   const prices = card.cardmarket?.prices || {};
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <div className="card-detail">
       <button className="back-button" onClick={onBack}>
@@ -46,6 +53,10 @@ function CardDetail({ card, onBack }) {
           <p className="no-price">Prix non disponible</p>
         )}
       </div>
+
+      <button className="scroll-to-top" onClick={scrollToTop}>
+        ↑
+      </button>
     </div>
   );
 }
