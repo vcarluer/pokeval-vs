@@ -93,7 +93,7 @@ function App() {
           <ImageUploader onImageAnalyze={handleImageAnalyze} />
         )}
         
-        {loading && <div className="loading">Analyse en cours...</div>}
+        {loading && !searchResults.length && <div className="loading">Analyse en cours...</div>}
         {error && <div className="error">{error}</div>}
         
         {uploadedImage && !selectedCard && (
